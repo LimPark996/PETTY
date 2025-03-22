@@ -1,3 +1,11 @@
+# "반려동물과 떠나는 완벽한 여행 | PETTY" ⚡
+
+![Image](https://github.com/user-attachments/assets/cfbf9440-5a3e-4802-9363-f2abb7861159)
+
+----
+
+
+
 ### 파일 정리
 
 1. 베이스 UI/UX
