@@ -1,7 +1,7 @@
 // 📌 Supabase 클라이언트 생성 (환경 변수 대신 직접 입력)
 const supabase = window.supabase.createClient(
-  "https://kjlypjubepptwtfjxxpy.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtqbHlwanViZXBwdHd0Zmp4eHB5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzk0NDQyNTEsImV4cCI6MjA1NTAyMDI1MX0.f5GXW2J7c2bFItWRNgJtEA9tUEGANoLtyGSflyHqHsk",
+  "https://cxmqnfubrioqhvnyephd.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN4bXFuZnVicmlvcWh2bnllcGhkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDMzOTgxOTMsImV4cCI6MjA1ODk3NDE5M30.y1ps4eLxoCc076nV-qc0KqH-CDZHMhokRVrctZX2Sn4",
   {
     auth: { persistSession: true, autoRefreshToken: true }, // ✅ 세션 유지
   }
