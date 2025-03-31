@@ -3,14 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="./script.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
     <!-- favicon -->
     <link
       rel="icon"
       type="image/png"
       href="./asset/favicon/favicon-96x96.png"
-      sizes="96x96"
     />
     <link rel="icon" type="image/svg+xml" href="./asset/favicon/favicon.svg" />
     <link rel="shortcut icon" href="./asset/favicon/favicon.ico" />
@@ -20,7 +18,8 @@
       href="./asset/favicon/apple-touch-icon.png"
     />
     <link rel="manifest" href="./asset/favicon/site.webmanifest" />
-    <!-- og tag -->
+
+    <!-- OG 태그 -->
     <meta
       property="og:title"
       content="PETTY - 반려동물과 함께 떠나는 완벽한 여행"
@@ -33,31 +32,35 @@
       property="og:image"
       content="https://github.com/user-attachments/assets/42edc0f5-5e02-4709-97c5-3009ed6cdeb2"
     />
-    <!-- <link rel="stylesheet" href="./style.css" /> -->
+
+    <title>PETTY | 반려동물과 함께 떠나는 완벽한 여행</title>
 
     <!-- Bootstrap CSS -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
-    <!-- Bootstrap Icons CSS -->
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
     />
-    <title>PETTY | 반려동물과 함께 떠나는 완벽한 여행</title>
+
+    <!-- 프로젝트 CSS -->
     <link rel="stylesheet" href="common.css" />
     <link rel="stylesheet" href="index.css" />
     <link rel="stylesheet" href="vision.css" />
   </head>
-  <!-- ====== body ======= -->
+
   <body>
-    <!-- nav bar - js -->
+    <!-- navbar / footer -->
     <div id="navbar"></div>
+
+    <!-- ====== Vision Form ====== -->
     <section class="main">
       <div class="container mt-4">
         <img src="./asset/007.png" class="img-fluid" />
       </div>
+
       <section class="container section-body">
         <div class="container mt-5">
           <div class="row justify-content-center result">
@@ -67,8 +70,6 @@
                   <h3 class="text-center mb-4">반려 동물 정보를 입력하세요</h3>
 
                   <form id="controller">
-                    <!-- 이미지 업로드 -->
-
                     <div class="mb-3">
                       <label for="petName" class="form-label"
                         >반려동물 이름</label
@@ -93,7 +94,6 @@
                       />
                     </div>
 
-                    <!-- 제출 버튼 -->
                     <div class="d-grid">
                       <button
                         type="submit"
@@ -106,7 +106,8 @@
                   </form>
                 </div>
               </div>
-              <!-- 스피너 -->
+
+              <!-- 로딩 -->
               <div
                 id="spinnerContainer"
                 class="text-center mt-3"
@@ -117,6 +118,8 @@
                 </div>
                 <p>🔄 이미지 분석 중...</p>
               </div>
+
+              <!-- 결과 -->
               <div id="result" style="display: none">
                 <div class="mb-3 text-center">
                   <img
@@ -135,14 +138,18 @@
       </section>
     </section>
 
-    <!-- nav bar - js -->
     <div id="footer"></div>
 
-    <script src="./vision.js"></script>
-    <script src="./main.js"></script>
-    <script src="./post.js"></script>
+    <!-- 라이브러리 및 JS 모듈 -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script type="module" src="./js/script.js"></script>
+    <!-- navbar/footer 삽입 -->
+    <script type="module" src="./js/main.js"></script>
+    <!-- 공통 로그인 상태 관리 -->
+    <script type="module" src="./js/vision.js"></script>
+    <!-- 이 페이지 핵심 로직 -->
 
-    <!-- Bootstrap JS (Optional, for features like dropdowns) -->
+    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>

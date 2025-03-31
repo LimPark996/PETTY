@@ -1,0 +1,166 @@
+.community-container {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.community-container img {
+  width: 300px;
+}
+
+#postForm {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+#postForm img {
+  width: 200px;
+}
+.form-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.form-container button {
+  background-color: #a3520f;
+  border: none;
+}
+.form-container button:hover {
+  background-color: #eb7719;
+}
+.post-card {
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.post-title {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.post-text {
+  margin-top: 5px;
+  font-size: 14px;
+}
+
+.delete-btn {
+  background: red;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.card {
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card-img-top {
+  height: 200px; /* 이미지 크기 일정하게 */
+  object-fit: cover;
+}
+
+.card-body {
+  padding: 15px;
+}
+
+.card-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.card-text {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.post-updated,
+.post-date {
+  font-size: 0.8rem;
+}
+
+.comment-box {
+  background: #f8f9fa; /* 연한 배경 */
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 10px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.comment-box p {
+  margin: 0;
+  font-size: 14px;
+}
+
+.comment-box small {
+  color: #6c757d;
+  display: block;
+  margin-top: 5px;
+}
+
+.comment-actions {
+  display: flex;
+  gap: 5px;
+  margin-top: 8px;
+}
+
+.comment-actions button {
+  font-size: 12px;
+  padding: 5px 8px;
+}
+
+#spinnerContainer {
+  flex: 1; /* 남은 공간을 차지하도록 설정 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#mainContainer {
+  flex: 1; /* spinnerContainer와 공유할 메인 영역 */
+  display: flex;
+  flex-direction: column;
+}
+
+#footer {
+  height: 50px; /* footer의 고정 높이 (예시) */
+}
+
+.postDetailImg {
+  width: 300px;
+  height: 300px;
+}
+
+.container.form-container {
+  font-family: "HakgyoansimDunggeunmisoTTF-B";
+}
+
+#login-btn.btn.btn-success {
+  background-color: #a3520f;
+  border: none;
+}
+
+.login-btn.btn.btn-success button:hover {
+  background-color: #eb7719;
+}
+
+.navbar.navbar-expand-lg.navbar-light.bg-white.shadow-sm.container-fluid {
+  font-family: "HakgyoansimDunggeunmisoTTF-B";
+}
