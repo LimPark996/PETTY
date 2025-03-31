@@ -134,7 +134,7 @@ async function savePost(title, content, imageFile) {
       "Content-Type": "application/json",
       Authorization: `Bearer ${access_token}`, // ✅ Authorization 헤더 추가
     },
-    body: JSON.stringify({ title, content, image_url: imageUrl, user_id }),
+    body: JSON.stringify({ title, content, image_url: imageUrl }),
   });
 
   const responseData = await response.json();
