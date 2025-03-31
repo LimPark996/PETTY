@@ -12,8 +12,10 @@ console.log("✅ Supabase 객체:", supabase);
 
 const API_URL = "https://big-adventurous-kettledrum.glitch.me"; // 백엔드 서버 주소
 
+/**
 const postList = document.getElementById("postList");
 const postForm = document.getElementById("postForm");
+**/
 
 document.addEventListener("DOMContentLoaded", async () => {
   console.log("✅ main.js 로드 완료");
