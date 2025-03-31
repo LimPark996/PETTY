@@ -43,7 +43,7 @@ async function checkLogin() {
     loginBtn.style.display = "inline-block";
     logoutBtn.style.display = "none";
     loginBtn.addEventListener("click", () => {
-      window.location.href = "/PETTY/html/login.html";
+      window.location.href = "/PETTY/login.html";
     });
   } else {
     loginBtn.style.display = "none";

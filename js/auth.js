@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
   supabase.auth.onAuthStateChange((event, session) => {
     console.log("🔹 인증 상태 변경:", event, session);
     if (session) {
-      window.location.href = "/PETTY/html/index.html"; // 로그인 후 홈으로 이동
+      window.location.href = "/PETTY/index.html"; // 로그인 후 홈으로 이동
     }
   });
 });
