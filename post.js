@@ -81,7 +81,7 @@ async function uploadImageToSupabase(file) {
     console.log("✅ 이미지 업로드 성공:", data);
 
     // ✅ 수동으로 URL 생성 (기본 사용)
-    let publicURL = `https://kjlypjubepptwtfjxxpy.supabase.co/storage/v1/object/public/images/${imageName}`;
+    let publicURL = `https://cxmqnfubrioqhvnyephd.supabase.co/storage/v1/object/public/images/${imageName}`;
     console.log("📌 수동으로 생성된 이미지 URL:", publicURL);
 
     return publicURL; // ✅ 정상적인 URL 반환
