@@ -1,11 +1,4 @@
-// 📌 Supabase 클라이언트 생성 (중복 방지 - login.js와 동일)
-const supabase = window.supabase.createClient(
-  "https://cxmqnfubrioqhvnyephd.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN4bXFuZnVicmlvcWh2bnllcGhkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDMzOTgxOTMsImV4cCI6MjA1ODk3NDE5M30.y1ps4eLxoCc076nV-qc0KqH-CDZHMhokRVrctZX2Sn4",
-  {
-    auth: { persistSession: true, autoRefreshToken: true },
-  }
-);
+import { supabase } from "./supabase.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
   console.log("✅ main.js 로드됨");
@@ -22,7 +15,7 @@ async function loadNavbar() {
   }
 
   try {
-    const response = await fetch("./templates/navbar.html");
+    const response = await fetch("../templates/navbar.html");
     const html = await response.text();
     navbarContainer.innerHTML = html;
     console.log("✅ 네비게이션 바 로드 완료");
@@ -50,7 +43,7 @@ async function checkLogin() {
     loginBtn.style.display = "inline-block";
     logoutBtn.style.display = "none";
     loginBtn.addEventListener("click", () => {
-      window.location.href = "./login.html";
+      window.location.href = "../html/login.html";
     });
   } else {
     loginBtn.style.display = "none";

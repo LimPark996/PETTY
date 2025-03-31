@@ -1,12 +1,4 @@
-// 📌 Supabase 클라이언트 생성
-const supabase = window.supabase.createClient(
-  "https://cxmqnfubrioqhvnyephd.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN4bXFuZnVicmlvcWh2bnllcGhkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDMzOTgxOTMsImV4cCI6MjA1ODk3NDE5M30.y1ps4eLxoCc076nV-qc0KqH-CDZHMhokRVrctZX2Sn4",
-  {
-    auth: { persistSession: true, autoRefreshToken: true },
-  }
-);
-
+import { supabase } from "./supabase.js";
 // ✅ 로그인 버튼 이벤트 등록
 document.addEventListener("DOMContentLoaded", () => {
   const githubBtn = document.querySelector("#login-github");
@@ -24,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
   supabase.auth.onAuthStateChange((event, session) => {
     console.log("🔹 인증 상태 변경:", event, session);
     if (session) {
-      window.location.href = "./index.html"; // 로그인 후 홈으로 이동
+      window.location.href = "../html/index.html"; // 로그인 후 홈으로 이동
     }
   });
 });
