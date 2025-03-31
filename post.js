@@ -293,24 +293,27 @@ async function deletePost(postId) {
 }
 
 // 📌 글 작성 이벤트 (이미지 업로드 추가)
-postForm.addEventListener("submit", async function (event) {
-  event.preventDefault();
+const postForm = document.getElementById("postForm");
+if (postForm) {
+  postForm.addEventListener("submit", async function (event) {
+    event.preventDefault();
 
-  const title = document.getElementById("title").value;
-  const content = document.getElementById("content").value;
-  const imageFile = document.getElementById("image").files[0]; // 파일 선택
+    const title = document.getElementById("title").value;
+    const content = document.getElementById("content").value;
+    const imageFile = document.getElementById("image").files[0];
 
-  if (!title || !content) return;
+    if (!title || !content) return;
 
-  await savePost(title, content, imageFile);
+    await savePost(title, content, imageFile);
 
-  // 입력 필드 초기화
-  document.getElementById("title").value = "";
-  document.getElementById("content").value = "";
-  document.getElementById("image").value = "";
+    // 입력 필드 초기화
+    document.getElementById("title").value = "";
+    document.getElementById("content").value = "";
+    document.getElementById("image").value = "";
 
-  window.location.href = "./community.html";
-});
+    window.location.href = "./community.html";
+  });
+}
 
 //===========여기 추가=========//
 function goToEditPage(postId) {
