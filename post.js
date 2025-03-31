@@ -45,8 +45,19 @@ async function checkLoginStatus() {
 async function loadPosts() {
   console.log("loadtest");
   const response = await fetch(`${API_URL}/posts`);
+  
+  if (!response.ok) {
+    const errorText = await response.text();
+    console.error("🛑 서버 오류:", errorText);
+    return;
+  }
+  
   const posts = await response.json();
-
+  
+  if (!Array.isArray(posts)) {
+    console.error("🛑 서버에서 배열이 아닌 데이터를 받음:", posts);
+    return;
+  }
   postList.innerHTML = ""; // 기존 게시글 초기화
   const isLoggedIn = await checkLoginStatus();
 
