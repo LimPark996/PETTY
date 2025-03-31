@@ -1,6 +1,6 @@
 // ✅ js/post-detail.js
-import { getCurrentUserId } from "./auth.js";
-import { loadComments, addComment } from "./comments.js";
+import { getCurrentUserId } from "/PETTY/js/auth.js";
+import { loadComments, addComment } from "/PETTY/js/comments.js";
 
 // 📌 게시글 상세 정보 로딩
 async function loadPostDetail(postId) {

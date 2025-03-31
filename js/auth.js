@@ -1,4 +1,4 @@
-import { supabase } from "./supabase.js";
+import { supabase } from "/PETTY/js/supabase.js";
 // ✅ 로그인 버튼 이벤트 등록
 document.addEventListener("DOMContentLoaded", () => {
   const githubBtn = document.querySelector("#login-github");
@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
   supabase.auth.onAuthStateChange((event, session) => {
     console.log("🔹 인증 상태 변경:", event, session);
     if (session) {
-      window.location.href = "../html/index.html"; // 로그인 후 홈으로 이동
+      window.location.href = "/PETTY/html/index.html"; // 로그인 후 홈으로 이동
     }
   });
 });

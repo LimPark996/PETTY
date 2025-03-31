@@ -1,4 +1,4 @@
-import { supabase } from "./supabase.js";
+import { supabase } from "/PETTY/js/supabase.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
   console.log("✅ main.js 로드됨");
@@ -15,7 +15,7 @@ async function loadNavbar() {
   }
 
   try {
-    const response = await fetch("../templates/navbar.html");
+    const response = await fetch("/PETTY/templates/navbar.html");
     const html = await response.text();
     navbarContainer.innerHTML = html;
     console.log("✅ 네비게이션 바 로드 완료");
@@ -43,7 +43,7 @@ async function checkLogin() {
     loginBtn.style.display = "inline-block";
     logoutBtn.style.display = "none";
     loginBtn.addEventListener("click", () => {
-      window.location.href = "../html/login.html";
+      window.location.href = "/PETTY/html/login.html";
     });
   } else {
     loginBtn.style.display = "none";
