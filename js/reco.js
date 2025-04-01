@@ -1,5 +1,17 @@
 // ✅ 전역 상수 및 초기화
 const baseUrl = "https://typical-aquatic-moose.glitch.me";
+
+fetch("https://typical-aquatic-moose.glitch.me/test-body", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({ message: "테스트입니다", from: "유미" })
+})
+  .then(res => res.json())
+  .then(data => console.log("🎉 서버 응답:", data))
+  .catch(err => console.error("❌ 요청 실패:", err));
+  
 let map = null;
 
 // ✅ Kakao 지도 SDK 로딩 확인 함수
