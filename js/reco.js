@@ -1,44 +1,47 @@
-// ✅ Configurable API base URL
-const baseUrl = "https://typical-aquatic-moose.glitch.me"; // 필요 시 교체
-
+const baseUrl = "https://typical-aquatic-moose.glitch.me";
 let map = null;
+
+// ✅ Kakao 로딩 완료까지 기다리는 함수
+function waitForKakaoMap(callback) {
+  if (window.kakao && window.kakao.maps) {
+    callback();
+  } else {
+    setTimeout(() => waitForKakaoMap(callback), 100);
+  }
+}
 
 window.addEventListener("load", () => {
   const modal = document.getElementById("mapModal");
 
   modal.addEventListener("shown.bs.modal", () => {
-    const mapContainer = document.getElementById("map");
-    const mapOption = {
-      center: new kakao.maps.LatLng(37.5665, 126.9780),
-      level: 3,
-    };
-    map = new kakao.maps.Map(mapContainer, mapOption);
-    setTimeout(() => { kakao.maps.event.trigger(map, 'resize'); }, 100);
+    waitForKakaoMap(() => {
+      const mapContainer = document.getElementById("map");
+      const mapOption = {
+        center: new kakao.maps.LatLng(37.5665, 126.9780),
+        level: 3,
+      };
+      map = new kakao.maps.Map(mapContainer, mapOption);
+      setTimeout(() => {
+        kakao.maps.event.trigger(map, "resize");
+      }, 100);
+    });
   });
 
-  // 드롭다운 초기화도 같이
   setupDropdown("petSizeBtn", "petSizeMenu");
   setupDropdown("isPredatorBtn", "isPredatorMenu");
   setupDropdown("publicAccessBtn", "publicAccessMenu");
   setupDropdown("tourTypeBtn", "tourTypeMenu");
 
-  document.getElementById("fetchButton").addEventListener("click", fetchAllDetails);
+  document
+    .getElementById("fetchButton")
+    .addEventListener("click", fetchAllDetails);
 });
 
-// ✅ 관광 카테고리 선택 값 추출
-function getSelectedTourValue() {
-  const selectedRadio = document.querySelector(
-    'input[name="tourType"]:checked'
-  );
-  return selectedRadio ? selectedRadio.value : "";
-}
-
-// 드롭다운 버튼에 라디오 선택값 표시
+// ✅ 드롭다운 버튼 텍스트 변경
 function setupDropdown(buttonId, menuId) {
   const button = document.getElementById(buttonId);
   const menu = document.getElementById(menuId);
 
-  // label 클릭해도 input이 선택되니까, label에 클릭 이벤트 연결
   menu.querySelectorAll("label").forEach((label) => {
     label.addEventListener("click", () => {
       const input = label.querySelector('input[type="radio"]');
@@ -49,14 +52,17 @@ function setupDropdown(buttonId, menuId) {
   });
 }
 
-// ✅ 기본 위치 설정
+function getSelectedTourValue() {
+  const selectedRadio = document.querySelector('input[name="tourType"]:checked');
+  return selectedRadio ? selectedRadio.value : "";
+}
+
 function ensureSelectedLatLng() {
   if (!window.selectedLatlng) window.selectedLatlng = {};
-  window.selectedLatlng.lat ??= 37.566842224638414; // 서울시청
+  window.selectedLatlng.lat ??= 37.566842224638414;
   window.selectedLatlng.lng ??= 126.97865225753738;
 }
 
-// ✅ 장소 목록 조회
 async function fetchBaseList(tourValue) {
   try {
     const { lat, lng } = window.selectedLatlng;
@@ -71,12 +77,9 @@ async function fetchBaseList(tourValue) {
   }
 }
 
-// ✅ 상세정보 조회
 async function fetchDetail(contentId) {
   try {
-    const response = await fetch(
-      `${baseUrl}/tour/detail?contentId=${contentId}`
-    );
+    const response = await fetch(`${baseUrl}/tour/detail?contentId=${contentId}`);
     if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
     return await response.json();
   } catch (error) {
@@ -85,7 +88,6 @@ async function fetchDetail(contentId) {
   }
 }
 
-// ✅ 전체 API 요청 및 결과 처리
 async function fetchAllDetails() {
   ensureSelectedLatLng();
   const tourValue = getSelectedTourValue();
@@ -105,7 +107,6 @@ async function fetchAllDetails() {
       const item = detail[0];
       const info = data[i];
       const addr = `${info.addr1} ${info.addr2}`;
-
       return `${i}번 장소 이름: ${info.title} 상세 주소: ${addr} 사고 예방: ${item.relaAcdntRiskMtr}, 동반 구역: ${item.acmpyTypeCd}, 관련 시설: ${item.relaPosesFclty}, 용품: ${item.relaFrnshPrdlst}, 기타: ${item.etcAcmpyInfo}, 구매 가능: ${item.relaPurcPrdlst}, 기준: ${item.acmpyPsblCpam}, 대여: ${item.relaRntlPrdlst}, 조건: ${item.acmpyNeedMtr}`;
     })
     .filter(Boolean)
@@ -132,31 +133,22 @@ async function fetchAllDetails() {
   }
 }
 
-// ✅ 반려동물 정보 수집
 function collectPetInfo() {
   const val = (id, fallback = "선택 안 함") =>
     document.getElementById(id)?.textContent?.trim() || fallback;
 
-  return `이름: ${document
-    .getElementById("petName")
-    .value.trim()}, 종: ${document
-    .getElementById("petSpecies")
-    .value.trim()}, 크기: ${val("petSizeBtn")}, 맹수 여부: ${val(
-    "isPredatorBtn"
-  )}, 공공장소 동행 가능 여부: ${val("publicAccessBtn")}`;
+  return `이름: ${document.getElementById("petName").value.trim()}, 종: ${document.getElementById("petSpecies").value.trim()}, 크기: ${val("petSizeBtn")}, 맹수 여부: ${val("isPredatorBtn")}, 공공장소 동행 가능 여부: ${val("publicAccessBtn")}`;
 }
 
-// ✅ 결과가 없을 때
 function displayEmptyMessage() {
   document.getElementById("spinner").innerHTML = "";
   const resultDiv = document.getElementById("result");
   resultDiv.innerHTML = `<p>조회된 관광/숙소 정보가 없습니다.</p>`;
 }
 
-// ✅ 결과 출력
 function displayInfo(infoList, data, tourValue) {
   const resultDiv = document.getElementById("result");
-  resultDiv.innerHTML = ""; // 기존 결과 초기화
+  resultDiv.innerHTML = "";
 
   if (!infoList || infoList[0] === -1 || infoList.length === 0) {
     displayEmptyMessage();
@@ -172,12 +164,8 @@ function displayInfo(infoList, data, tourValue) {
     div.innerHTML = `
       <h3 class="info-name">${item.title}</h3>
       <p class="info-address">📍 ${item.addr1} ${item.addr2}</p>
-      <img class="info-image" src="${
-        item.firstimage || "./asset/notfound.png"
-      }" alt="${item.title}" style="width: 50%;" />
-      <p class="info-description">🔍 ${
-        placeInfo.INFO?.trim() || "정보 없음"
-      }</p>
+      <img class="info-image" src="${item.firstimage || "./asset/notfound.png"}" alt="${item.title}" style="width: 50%;" />
+      <p class="info-description">🔍 ${placeInfo.INFO?.trim() || "정보 없음"}</p>
       <p class="info-hours">📅 ${placeInfo.TIME?.trim() || "정보 없음"}</p>
       <p class="info-phone">📞 ${item.tel?.trim() || "정보 없음"}</p>
     `;
