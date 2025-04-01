@@ -3,7 +3,6 @@ import { supabase } from "./supabase.js";
 document.addEventListener("DOMContentLoaded", async () => {
   console.log("✅ main.js 로드됨");
   await loadNavbar();
-  checkLogin(); // 페이지 진입 시 로그인 상태 확인
 
   fetch("templates/footer.html")
   .then((res) => res.text())
