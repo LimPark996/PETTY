@@ -44,7 +44,10 @@ window.addEventListener("load", () => {
     setupDropdown(id, id.replace("Btn", "Menu"));
   });
 
-  document.getElementById("fetchButton").addEventListener("click", fetchAllDetails);
+  document.getElementById("fetchButton").addEventListener("click", () => {
+    console.log("🔘 정보 찾기 버튼 클릭됨!");
+    fetchAllDetails();
+  });  
   document.getElementById("searchButton").addEventListener("click", handleSearch);
   document.getElementById("confirmLocation").addEventListener("click", handleConfirmLocation);
 });
