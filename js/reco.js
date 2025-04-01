@@ -128,7 +128,17 @@ async function fetchDetail(contentId) {
 
 async function fetchAllDetails() {
   ensureSelectedLatLng();
-  const tourValue = getSelectedTourValue();
+  const tourValueName = getSelectedTourValue();  // 예: "음식점"
+  const tourValue = {
+    "관광지":12,
+    "문화시설":14,
+    "축제공연행사":15,
+    "여행코스":25,
+    "레포츠":28,
+    "숙박":32,
+    "쇼핑":38,
+    "음식점":39
+  }[tourValueName]; // → 숫자 ID로 변환
   const data = await fetchBaseList(tourValue);
   if (data.length === 0) return displayEmptyMessage();
 
