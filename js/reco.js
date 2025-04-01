@@ -149,7 +149,9 @@ async function fetchAllDetails() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ text: prompt }),
     });
-    const json = await response.json();
+    const raw = await response.text(); // ← JSON으로 파싱하기 전에 raw로 먼저 받아보기
+    console.log("🧪 Gemini 응답(raw):", raw);
+    const json = JSON.parse(raw); // ← 이제 파싱
     console.log("🧪 Gemini 응답:", json);
     const infoList = JSON.parse(json.reply);
     displayInfo(infoList, data, tourValue);
