@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
 async function signInWithProvider(provider) {
   try {
     await supabase.auth.signOut(); // 기존 세션 제거
-    const redirectUrl = window.location.origin + "/PETTY"; // 돌아올 위치
+    const redirectUrl = window.location.origin + "/PETTY/login.html"; // 돌아올 위치
 
     const { error } = await supabase.auth.signInWithOAuth({
       provider,
