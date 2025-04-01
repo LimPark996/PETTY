@@ -140,6 +140,7 @@ async function fetchAllDetails() {
     "음식점":39
   }[tourValueName]; // → 숫자 ID로 변환
   const data = await fetchBaseList(tourValue);
+  console.log("data",data);
   if (data.length === 0) return displayEmptyMessage();
 
   const contentIds = data.map(item => item.contentid);
@@ -166,15 +167,12 @@ async function fetchAllDetails() {
     console.log("🧪 Gemini 응답(raw):", raw);
     const json = JSON.parse(raw); // ← 이제 파싱
     console.log("🧪 Gemini 응답:", json);
-    const infoList = JSON.parse(json.reply);
+    const infoList = json.reply;
     displayInfo(infoList, data, tourValue);
   } catch (err) {
     console.error("❌ Gemini API 호출 실패:", err);
     displayEmptyMessage();
   }
-  console.log("🧪 contentIds:", contentIds);
-  console.log("🧪 detailsArray:", detailsArray);
-  console.log("🧪 detailsString:", detailsString);
 }
 
 function collectPetInfo() {
