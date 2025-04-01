@@ -193,7 +193,7 @@ function displayInfo(infoList, data, tourValue) {
   if (!infoList || infoList[0] === -1 || infoList.length === 0) return displayEmptyMessage();
 
   infoList.forEach((placeInfo, index) => {
-    const item = data.find((_, idx) => idx === placeInfo.NUMBER);
+    const item = data.find(d => d.contentid === placeInfo.NUMBER);
     const div = document.createElement("div");
     div.className = "info-card";
     div.id = `${tourValue}-${index}`;
