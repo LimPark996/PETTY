@@ -28,7 +28,7 @@ async function loadNavbar() {
   }
 
   try {
-    const response = await fetch("../templates/navbar.html");
+    const response = await fetch("templates/navbar.html");
     const html = await response.text();
     navbarContainer.innerHTML = html;
     console.log("✅ 네비게이션 바 로드 완료");
