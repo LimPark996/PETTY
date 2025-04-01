@@ -1,7 +1,8 @@
+// ✅ 전역 상수 및 초기화
 const baseUrl = "https://typical-aquatic-moose.glitch.me";
 let map = null;
 
-// ✅ Kakao 로딩 완료까지 기다리는 함수
+// ✅ Kakao 지도 SDK 로딩 확인 함수
 function waitForKakaoMap(callback) {
   if (window.kakao && window.kakao.maps) {
     callback();
@@ -10,6 +11,7 @@ function waitForKakaoMap(callback) {
   }
 }
 
+// ✅ 초기 설정
 window.addEventListener("load", () => {
   const modal = document.getElementById("mapModal");
 
@@ -21,20 +23,18 @@ window.addEventListener("load", () => {
         level: 3,
       };
       map = new kakao.maps.Map(mapContainer, mapOption);
-      setTimeout(() => {
-        kakao.maps.event.trigger(map, "resize");
-      }, 100);
+      setTimeout(() => kakao.maps.event.trigger(map, "resize"), 100);
     });
   });
 
-  setupDropdown("petSizeBtn", "petSizeMenu");
-  setupDropdown("isPredatorBtn", "isPredatorMenu");
-  setupDropdown("publicAccessBtn", "publicAccessMenu");
-  setupDropdown("tourTypeBtn", "tourTypeMenu");
+  // 버튼 및 드롭다운 설정
+  ["petSizeBtn", "isPredatorBtn", "publicAccessBtn", "tourTypeBtn"].forEach(id => {
+    setupDropdown(id, id.replace("Btn", "Menu"));
+  });
 
-  document
-    .getElementById("fetchButton")
-    .addEventListener("click", fetchAllDetails);
+  document.getElementById("fetchButton").addEventListener("click", fetchAllDetails);
+  document.getElementById("searchButton").addEventListener("click", handleSearch);
+  document.getElementById("confirmLocation").addEventListener("click", handleConfirmLocation);
 });
 
 // ✅ 드롭다운 버튼 텍스트 변경
@@ -63,12 +63,35 @@ function ensureSelectedLatLng() {
   window.selectedLatlng.lng ??= 126.97865225753738;
 }
 
+function handleSearch() {
+  const keyword = document.getElementById("keywordInput").value.trim();
+  if (!keyword) return;
+
+  const ps = new kakao.maps.services.Places();
+  ps.keywordSearch(keyword, function (data, status) {
+    if (status === kakao.maps.services.Status.OK) {
+      const coords = new kakao.maps.LatLng(data[0].y, data[0].x);
+      map.setCenter(coords);
+      new kakao.maps.Marker({ map, position: coords });
+      window.selectedLatlng = { lat: data[0].y, lng: data[0].x };
+      window.selectedAddress = data[0].place_name;
+    } else {
+      alert("검색 결과가 없습니다");
+    }
+  });
+}
+
+function handleConfirmLocation() {
+  const locInput = document.getElementById("locationInput");
+  locInput.value = window.selectedAddress || `좌표: ${window.selectedLatlng?.lat}, ${window.selectedLatlng?.lng}`;
+  const modal = bootstrap.Modal.getInstance(document.getElementById("mapModal"));
+  modal.hide();
+}
+
 async function fetchBaseList(tourValue) {
   try {
     const { lat, lng } = window.selectedLatlng;
-    const response = await fetch(
-      `${baseUrl}/baselist?tourValue=${tourValue}&lat=${lat}&lng=${lng}`
-    );
+    const response = await fetch(`${baseUrl}/baselist?tourValue=${tourValue}&lat=${lat}&lng=${lng}`);
     if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
     return await response.json();
   } catch (error) {
@@ -92,28 +115,20 @@ async function fetchAllDetails() {
   ensureSelectedLatLng();
   const tourValue = getSelectedTourValue();
   const data = await fetchBaseList(tourValue);
+  if (data.length === 0) return displayEmptyMessage();
 
-  if (data.length === 0) {
-    displayEmptyMessage();
-    return;
-  }
-
-  const contentIds = data.map((item) => item.contentid);
+  const contentIds = data.map(item => item.contentid);
   const detailsArray = await Promise.all(contentIds.map(fetchDetail));
 
-  const detailsString = detailsArray
-    .map((detail, i) => {
-      if (!detail?.[0]) return null;
-      const item = detail[0];
-      const info = data[i];
-      const addr = `${info.addr1} ${info.addr2}`;
-      return `${i}번 장소 이름: ${info.title} 상세 주소: ${addr} 사고 예방: ${item.relaAcdntRiskMtr}, 동반 구역: ${item.acmpyTypeCd}, 관련 시설: ${item.relaPosesFclty}, 용품: ${item.relaFrnshPrdlst}, 기타: ${item.etcAcmpyInfo}, 구매 가능: ${item.relaPurcPrdlst}, 기준: ${item.acmpyPsblCpam}, 대여: ${item.relaRntlPrdlst}, 조건: ${item.acmpyNeedMtr}`;
-    })
-    .filter(Boolean)
-    .join("\n");
+  const detailsString = detailsArray.map((detail, i) => {
+    if (!detail?.[0]) return null;
+    const item = detail[0];
+    const info = data[i];
+    const addr = `${info.addr1} ${info.addr2}`;
+    return `${i}번 장소 이름: ${info.title} 상세 주소: ${addr} 사고 예방: ${item.relaAcdntRiskMtr}, 동반 구역: ${item.acmpyTypeCd}, 관련 시설: ${item.relaPosesFclty}, 용품: ${item.relaFrnshPrdlst}, 기타: ${item.etcAcmpyInfo}, 구매 가능: ${item.relaPurcPrdlst}, 기준: ${item.acmpyPsblCpam}, 대여: ${item.relaRntlPrdlst}, 조건: ${item.acmpyNeedMtr}`;
+  }).filter(Boolean).join("\n");
 
-  const petInfo = collectPetInfo();
-  const prompt = `숙소 정보:\n${detailsString}\n반려동물 정보:\n${petInfo}`;
+  const prompt = `숙소 정보:\n${detailsString}\n반려동물 정보:\n${collectPetInfo()}`;
   console.log("📌 Gemini에 보낼 프롬프트:", prompt);
 
   try {
@@ -122,10 +137,8 @@ async function fetchAllDetails() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ text: prompt }),
     });
-
     const json = await response.json();
     const infoList = JSON.parse(json.reply);
-
     displayInfo(infoList, data, tourValue);
   } catch (err) {
     console.error("❌ Gemini API 호출 실패:", err);
@@ -134,33 +147,25 @@ async function fetchAllDetails() {
 }
 
 function collectPetInfo() {
-  const val = (id, fallback = "선택 안 함") =>
-    document.getElementById(id)?.textContent?.trim() || fallback;
-
+  const val = (id, fallback = "선택 안 함") => document.getElementById(id)?.textContent?.trim() || fallback;
   return `이름: ${document.getElementById("petName").value.trim()}, 종: ${document.getElementById("petSpecies").value.trim()}, 크기: ${val("petSizeBtn")}, 맹수 여부: ${val("isPredatorBtn")}, 공공장소 동행 가능 여부: ${val("publicAccessBtn")}`;
 }
 
 function displayEmptyMessage() {
   document.getElementById("spinner").innerHTML = "";
-  const resultDiv = document.getElementById("result");
-  resultDiv.innerHTML = `<p>조회된 관광/숙소 정보가 없습니다.</p>`;
+  document.getElementById("result").innerHTML = `<p>조회된 관광/숙소 정보가 없습니다.</p>`;
 }
 
 function displayInfo(infoList, data, tourValue) {
   const resultDiv = document.getElementById("result");
   resultDiv.innerHTML = "";
-
-  if (!infoList || infoList[0] === -1 || infoList.length === 0) {
-    displayEmptyMessage();
-    return;
-  }
+  if (!infoList || infoList[0] === -1 || infoList.length === 0) return displayEmptyMessage();
 
   infoList.forEach((placeInfo, index) => {
     const item = data[placeInfo.NUMBER];
     const div = document.createElement("div");
     div.className = "info-card";
     div.id = `${tourValue}-${index}`;
-
     div.innerHTML = `
       <h3 class="info-name">${item.title}</h3>
       <p class="info-address">📍 ${item.addr1} ${item.addr2}</p>
@@ -171,10 +176,5 @@ function displayInfo(infoList, data, tourValue) {
     `;
     resultDiv.appendChild(div);
   });
-
   document.getElementById("spinner").innerHTML = "";
 }
-
-document
-  .getElementById("fetchButton")
-  .addEventListener("click", fetchAllDetails);
