@@ -4,6 +4,19 @@ document.addEventListener("DOMContentLoaded", async () => {
   console.log("✅ main.js 로드됨");
   await loadNavbar();
   checkLogin(); // 페이지 진입 시 로그인 상태 확인
+
+  fetch("../templates/footer.html")
+  .then((response) => response.text())
+  .then((data) => {
+    document.getElementById("footer").innerHTML = data;
+  });
+
+  fetch("../templates/navbar.html")
+    .then((response) => response.text())
+    .then((data) => {
+      document.getElementById("navbar").innerHTML = data;
+    });
+
 });
 
 // 📌 네비게이션 바 동적 로드
