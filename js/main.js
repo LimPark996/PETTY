@@ -10,12 +10,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.getElementById("footer").innerHTML = html;
   });
 
-fetch("asset/navbar.html")
-  .then((res) => res.text())
-  .then((html) => {
-    document.getElementById("navbar").innerHTML = html;
-  });
-
 });
 
 // 📌 네비게이션 바 동적 로드
