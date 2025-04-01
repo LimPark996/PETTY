@@ -13,10 +13,15 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // 로그인 완료 후 자동 로그인 감지
-  supabase.auth.onAuthStateChange((event, session) => {
+  supabase.auth.onAuthStateChange(async (event, session) => {
     console.log("🔹 인증 상태 변경:", event, session);
-    if (session) {
-      window.location.href = "./index.html"; // 로그인 후 홈으로 이동
+  
+    // 실제 세션 상태 확인
+    const { data } = await supabase.auth.getSession();
+    if (data?.session) {
+      window.location.href = "./index.html";
+    } else {
+      console.warn("🕓 세션이 아직 복구되지 않았습니다. 리다이렉트 보류");
     }
   });
 });
