@@ -25,7 +25,6 @@ async function loadNavbar() {
     const html = await response.text();
     navbarContainer.innerHTML = html;
     console.log("✅ 네비게이션 바 로드 완료");
-
     checkLogin(); // 네비게이션이 로드된 뒤 버튼에 이벤트 연결
   } catch (err) {
     console.error("🛑 navbar 로딩 실패:", err);
@@ -37,34 +36,31 @@ async function checkLogin() {
   const { data: sessionData, error } = await supabase.auth.getSession();
   const loginBtn = document.querySelector("#login-btn");
   const logoutBtn = document.querySelector("#logout-btn");
-  const userInfo = document.querySelector("#user-info");
 
   if (!loginBtn || !logoutBtn) {
     console.warn("🔸 로그인/로그아웃 버튼 없음 (아마 네비게이션 미포함 페이지)");
     return;
   }
 
-  if (error || !sessionData?.session) {
-    loginBtn.style.display = "inline-block";
-    logoutBtn.style.display = "none";
-    if (userInfo) userInfo.style.display = "none";
+  // 기존 이벤트 제거 (중복 방지용)
+  const newLoginBtn = loginBtn.cloneNode(true);
+  loginBtn.replaceWith(newLoginBtn); // 버튼 새로 교체
+  const newLogoutBtn = logoutBtn.cloneNode(true);
+  logoutBtn.replaceWith(newLogoutBtn);
 
-    loginBtn.addEventListener("click", () => {
+  if (error || !sessionData?.session) {
+    newLoginBtn.style.display = "inline-block";
+    newLogoutBtn.style.display = "none";
+
+    newLoginBtn.addEventListener("click", () => {
+      console.log("🔐 로그인 페이지로 이동");
       window.location.href = "./login.html";
     });
   } else {
-    const user = sessionData.session.user;
-    const name = user.user_metadata?.full_name || user.email;
+    newLoginBtn.style.display = "none";
+    newLogoutBtn.style.display = "inline-block";
 
-    loginBtn.style.display = "none";
-    logoutBtn.style.display = "inline-block";
-
-    if (userInfo) {
-      userInfo.textContent = `👋 ${name}`;
-      userInfo.style.display = "inline-block";
-    }
-
-    logoutBtn.addEventListener("click", signOutAndReload);
+    newLogoutBtn.addEventListener("click", signOutAndReload);
   }
 }
 
