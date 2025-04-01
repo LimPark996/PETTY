@@ -5,17 +5,17 @@ document.addEventListener("DOMContentLoaded", async () => {
   await loadNavbar();
   checkLogin(); // 페이지 진입 시 로그인 상태 확인
 
-  fetch("../templates/footer.html")
-  .then((response) => response.text())
-  .then((data) => {
-    document.getElementById("footer").innerHTML = data;
+  fetch("/PETTY/templates/footer.html")
+  .then((res) => res.text())
+  .then((html) => {
+    document.getElementById("footer").innerHTML = html;
   });
 
-  fetch("../templates/navbar.html")
-    .then((response) => response.text())
-    .then((data) => {
-      document.getElementById("navbar").innerHTML = data;
-    });
+fetch("/PETTY/templates/navbar.html")
+  .then((res) => res.text())
+  .then((html) => {
+    document.getElementById("navbar").innerHTML = html;
+  });
 
 });
 
