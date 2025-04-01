@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.getElementById("footer").innerHTML = html;
   });
 
-fetch("templates/navbar.html")
+fetch("asset/navbar.html")
   .then((res) => res.text())
   .then((html) => {
     document.getElementById("navbar").innerHTML = html;
@@ -28,7 +28,7 @@ async function loadNavbar() {
   }
 
   try {
-    const response = await fetch("templates/navbar.html");
+    const response = await fetch("asset/navbar.html");
     const html = await response.text();
     navbarContainer.innerHTML = html;
     console.log("✅ 네비게이션 바 로드 완료");
