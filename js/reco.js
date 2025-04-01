@@ -13,6 +13,7 @@ window.addEventListener("load", () => {
       level: 3,
     };
     map = new kakao.maps.Map(mapContainer, mapOption);
+    setTimeout(() => { kakao.maps.event.trigger(map, 'resize'); }, 100);
   });
 
   // 드롭다운 초기화도 같이
