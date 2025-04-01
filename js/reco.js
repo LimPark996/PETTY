@@ -191,7 +191,7 @@ function displayInfo(infoList, data, tourValue) {
   if (!infoList || infoList[0] === -1 || infoList.length === 0) return displayEmptyMessage();
 
   infoList.forEach((placeInfo, index) => {
-    const item = data.find(d => d.contentid === placeInfo.NUMBER);
+    const item = data.find(d => String(d.contentid) === String(placeInfo.NUMBER));
     if (!item) {
       console.warn(`❗ contentid ${placeInfo.NUMBER}에 해당하는 항목을 찾을 수 없습니다.`);
       return;
