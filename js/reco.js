@@ -11,7 +11,7 @@ fetch("https://typical-aquatic-moose.glitch.me/test-body", {
   .then(res => res.json())
   .then(data => console.log("🎉 서버 응답:", data))
   .catch(err => console.error("❌ 요청 실패:", err));
-  
+
 let map = null;
 
 // ✅ Kakao 지도 SDK 로딩 확인 함수
@@ -150,12 +150,16 @@ async function fetchAllDetails() {
       body: JSON.stringify({ text: prompt }),
     });
     const json = await response.json();
+    console.log("🧪 Gemini 응답:", json);
     const infoList = JSON.parse(json.reply);
     displayInfo(infoList, data, tourValue);
   } catch (err) {
     console.error("❌ Gemini API 호출 실패:", err);
     displayEmptyMessage();
   }
+  console.log("🧪 contentIds:", contentIds);
+  console.log("🧪 detailsArray:", detailsArray);
+  console.log("🧪 detailsString:", detailsString);
 }
 
 function collectPetInfo() {
