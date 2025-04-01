@@ -44,23 +44,33 @@ async function checkLogin() {
   const { data: sessionData, error } = await supabase.auth.getSession();
   const loginBtn = document.querySelector("#login-btn");
   const logoutBtn = document.querySelector("#logout-btn");
+  const userInfo = document.querySelector("#user-info");
 
   if (!loginBtn || !logoutBtn) {
-    console.warn(
-      "🔸 로그인/로그아웃 버튼 없음 (아마 네비게이션 미포함 페이지)"
-    );
+    console.warn("🔸 로그인/로그아웃 버튼 없음 (아마 네비게이션 미포함 페이지)");
     return;
   }
 
   if (error || !sessionData?.session) {
     loginBtn.style.display = "inline-block";
     logoutBtn.style.display = "none";
+    if (userInfo) userInfo.style.display = "none";
+
     loginBtn.addEventListener("click", () => {
       window.location.href = "./login.html";
     });
   } else {
+    const user = sessionData.session.user;
+    const name = user.user_metadata?.full_name || user.email;
+
     loginBtn.style.display = "none";
     logoutBtn.style.display = "inline-block";
+
+    if (userInfo) {
+      userInfo.textContent = `👋 ${name}`;
+      userInfo.style.display = "inline-block";
+    }
+
     logoutBtn.addEventListener("click", signOutAndReload);
   }
 }
