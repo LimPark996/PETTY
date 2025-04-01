@@ -150,8 +150,8 @@ async function fetchAllDetails() {
     const item = detail[0];
     const info = data[i];
     const addr = `${info.addr1} ${info.addr2}`;
-    return `${i}번 장소 이름: ${info.title} 상세 주소: ${addr} 사고 예방: ${item.relaAcdntRiskMtr}, 동반 구역: ${item.acmpyTypeCd}, 관련 시설: ${item.relaPosesFclty}, 용품: ${item.relaFrnshPrdlst}, 기타: ${item.etcAcmpyInfo}, 구매 가능: ${item.relaPurcPrdlst}, 기준: ${item.acmpyPsblCpam}, 대여: ${item.relaRntlPrdlst}, 조건: ${item.acmpyNeedMtr}`;
-  }).filter(Boolean).join("\n");
+    return `contentid: ${info.contentid}, 장소 이름: ${info.title}, 상세 주소: ${addr}, 사고 예방: ${item.relaAcdntRiskMtr}, 동반 구역: ${item.acmpyTypeCd}, 관련 시설: ${item.relaPosesFclty}, 용품: ${item.relaFrnshPrdlst}, 기타: ${item.etcAcmpyInfo}, 구매 가능: ${item.relaPurcPrdlst}, 기준: ${item.acmpyPsblCpam}, 대여: ${item.relaRntlPrdlst}, 조건: ${item.acmpyNeedMtr}`;
+  }).filter(Boolean).join("\n");  
 
   const prompt = `숙소 정보:\n${detailsString}\n반려동물 정보:\n${collectPetInfo()}`;
   console.log("📌 Gemini에 보낼 프롬프트:", prompt);
