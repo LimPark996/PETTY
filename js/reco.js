@@ -192,6 +192,10 @@ function displayInfo(infoList, data, tourValue) {
 
   infoList.forEach((placeInfo, index) => {
     const item = data.find(d => d.contentid === placeInfo.NUMBER);
+    if (!item) {
+      console.warn(`❗ contentid ${placeInfo.NUMBER}에 해당하는 항목을 찾을 수 없습니다.`);
+      return;
+    }
     const div = document.createElement("div");
     div.className = "info-card";
     div.id = `${tourValue}-${index}`;
