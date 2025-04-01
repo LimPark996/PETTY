@@ -1,4 +1,4 @@
-import { supabase } from "./js/supabase.js";
+import { supabase } from "./supabase.js";
 // ✅ 로그인 버튼 이벤트 등록
 document.addEventListener("DOMContentLoaded", () => {
   const githubBtn = document.querySelector("#login-github");

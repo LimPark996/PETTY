@@ -1,6 +1,6 @@
-import { getCurrentUserId, getAccessToken } from "./js/auth.js";
-import { uploadImageToSupabase, deleteImageFromSupabase } from "./js/upload.js";
-import { getQueryParam, redirectTo } from "./js/utils.js";
+import { getCurrentUserId, getAccessToken } from "./auth.js";
+import { uploadImageToSupabase, deleteImageFromSupabase } from "./upload.js";
+import { getQueryParam, redirectTo } from "./utils.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
   const postId = getQueryParam("id");

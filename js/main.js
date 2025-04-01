@@ -1,4 +1,4 @@
-import { supabase } from "./js/supabase.js";
+import { supabase } from "./supabase.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
   console.log("✅ main.js 로드됨");
@@ -15,7 +15,7 @@ async function loadNavbar() {
   }
 
   try {
-    const response = await fetch("./templates/navbar.html");
+    const response = await fetch("../templates/navbar.html");
     const html = await response.text();
     navbarContainer.innerHTML = html;
     console.log("✅ 네비게이션 바 로드 완료");

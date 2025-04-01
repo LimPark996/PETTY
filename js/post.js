@@ -1,6 +1,6 @@
 // post.js (리팩토링 버전)
-import { getAccessToken, getCurrentUserId } from "./js/auth.js";
-import { uploadImageToSupabase } from "./js/upload.js";
+import { getAccessToken, getCurrentUserId } from "./auth.js";
+import { uploadImageToSupabase } from "./upload.js";
 
 const API_URL = "https://big-adventurous-kettledrum.glitch.me";
 
