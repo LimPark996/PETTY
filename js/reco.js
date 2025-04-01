@@ -1,12 +1,49 @@
 // ✅ Configurable API base URL
 const baseUrl = "https://typical-aquatic-moose.glitch.me"; // 필요 시 교체
 
+let map = null;
+
+document.addEventListener("DOMContentLoaded", () => {
+  const modal = document.getElementById("mapModal");
+
+  modal.addEventListener("shown.bs.modal", () => {
+    const mapContainer = document.getElementById("map");
+    const mapOption = {
+      center: new kakao.maps.LatLng(37.5665, 126.9780), // 서울시청
+      level: 3
+    };
+    map = new kakao.maps.Map(mapContainer, mapOption);
+  });
+
+    setupDropdown("petSizeBtn", "petSizeMenu");
+    setupDropdown("isPredatorBtn", "isPredatorMenu");
+    setupDropdown("publicAccessBtn", "publicAccessMenu");
+    setupDropdown("tourTypeBtn", "tourTypeMenu");
+
+  });
+
 // ✅ 관광 카테고리 선택 값 추출
 function getSelectedTourValue() {
   const selectedRadio = document.querySelector(
     'input[name="tourType"]:checked'
   );
   return selectedRadio ? selectedRadio.value : "";
+}
+
+// 드롭다운 버튼에 라디오 선택값 표시
+function setupDropdown(buttonId, menuId) {
+  const button = document.getElementById(buttonId);
+  const menu = document.getElementById(menuId);
+
+  // label 클릭해도 input이 선택되니까, label에 클릭 이벤트 연결
+  menu.querySelectorAll("label").forEach((label) => {
+    label.addEventListener("click", () => {
+      const input = label.querySelector('input[type="radio"]');
+      if (input && input.value) {
+        button.textContent = input.value;
+      }
+    });
+  });
 }
 
 // ✅ 기본 위치 설정
