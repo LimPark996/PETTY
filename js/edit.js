@@ -1,6 +1,6 @@
-import { getCurrentUserId, getAccessToken } from "/PETTY/js/auth.js";
-import { uploadImageToSupabase, deleteImageFromSupabase } from "/PETTY/js/upload.js";
-import { getQueryParam, redirectTo } from "/PETTY/js/utils.js";
+import { getCurrentUserId, getAccessToken } from "./js/auth.js";
+import { uploadImageToSupabase, deleteImageFromSupabase } from "./js/upload.js";
+import { getQueryParam, redirectTo } from "./js/utils.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
   const postId = getQueryParam("id");

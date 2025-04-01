@@ -1,5 +1,5 @@
 // 📁 comment.js
-import { getCurrentUserId } from "/PETTY/js/auth.js";
+import { getCurrentUserId } from "./js/auth.js";
 
 export async function loadComments(postId) {
   const response = await fetch(`${API_URL}/comments?board_id=${postId}`);

@@ -133,7 +133,7 @@ function displayInfo(infoList, data, tourValue) {
       <h3 class="info-name">${item.title}</h3>
       <p class="info-address">📍 ${item.addr1} ${item.addr2}</p>
       <img class="info-image" src="${
-        item.firstimage || "/PETTY/asset/notfound.png"
+        item.firstimage || "./asset/notfound.png"
       }" alt="${item.title}" style="width: 50%;" />
       <p class="info-description">🔍 ${
         placeInfo.INFO?.trim() || "정보 없음"
