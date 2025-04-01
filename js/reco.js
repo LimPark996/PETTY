@@ -3,24 +3,26 @@ const baseUrl = "https://typical-aquatic-moose.glitch.me"; // 필요 시 교체
 
 let map = null;
 
-document.addEventListener("DOMContentLoaded", () => {
+window.addEventListener("load", () => {
   const modal = document.getElementById("mapModal");
 
   modal.addEventListener("shown.bs.modal", () => {
     const mapContainer = document.getElementById("map");
     const mapOption = {
-      center: new kakao.maps.LatLng(37.5665, 126.9780), // 서울시청
-      level: 3
+      center: new kakao.maps.LatLng(37.5665, 126.9780),
+      level: 3,
     };
     map = new kakao.maps.Map(mapContainer, mapOption);
   });
 
-    setupDropdown("petSizeBtn", "petSizeMenu");
-    setupDropdown("isPredatorBtn", "isPredatorMenu");
-    setupDropdown("publicAccessBtn", "publicAccessMenu");
-    setupDropdown("tourTypeBtn", "tourTypeMenu");
+  // 드롭다운 초기화도 같이
+  setupDropdown("petSizeBtn", "petSizeMenu");
+  setupDropdown("isPredatorBtn", "isPredatorMenu");
+  setupDropdown("publicAccessBtn", "publicAccessMenu");
+  setupDropdown("tourTypeBtn", "tourTypeMenu");
 
-  });
+  document.getElementById("fetchButton").addEventListener("click", fetchAllDetails);
+});
 
 // ✅ 관광 카테고리 선택 값 추출
 function getSelectedTourValue() {
