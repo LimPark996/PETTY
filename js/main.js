@@ -5,13 +5,13 @@ document.addEventListener("DOMContentLoaded", async () => {
   await loadNavbar();
   checkLogin(); // 페이지 진입 시 로그인 상태 확인
 
-  fetch("/PETTY/templates/footer.html")
+  fetch("templates/footer.html")
   .then((res) => res.text())
   .then((html) => {
     document.getElementById("footer").innerHTML = html;
   });
 
-fetch("/PETTY/templates/navbar.html")
+fetch("templates/navbar.html")
   .then((res) => res.text())
   .then((html) => {
     document.getElementById("navbar").innerHTML = html;
