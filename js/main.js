@@ -1,10 +1,6 @@
 // ✅ Supabase 인스턴스 가져오기
 import { supabase } from "./supabase.js";
 
-// ✅ 문서가 완전히 로드된 후 실행
-document.addEventListener("DOMContentLoaded", async () => {
-  console.log("✅ main.js 로드됨");
-
   // 네비게이션 바와 푸터를 불러옴
   await loadNavbar();
   await loadFooter();
@@ -32,10 +28,24 @@ async function loadNavbar() {
     navbarContainer.innerHTML = html;                  // 삽입
     console.log("✅ 네비게이션 바 로드 완료");
 
-    // ✅ checkLogin 호출은 여기에 추가해도 좋아요 (초기 상태 렌더링)
-    checkLogin();
+    waitForButtonsThenCheckLogin(); // 👉 여기서 호출!
   } catch (err) {
     console.error("🛑 navbar 로딩 실패:", err);
+  }
+}
+
+function waitForButtonsThenCheckLogin(retry = 10) {
+  const loginBtn = document.querySelector("#login-btn");
+  const logoutBtn = document.querySelector("#logout-btn");
+
+  if (loginBtn && logoutBtn) {
+    console.log("✅ 버튼이 모두 로드됨 → checkLogin 실행");
+    checkLogin(); // 버튼이 모두 있다면 checkLogin 실행
+  } else if (retry > 0) {
+    console.log("⏳ 버튼이 아직 없음, 재시도... (남은 시도: " + retry + ")");
+    setTimeout(() => waitForButtonsThenCheckLogin(retry - 1), 200); // 200ms 뒤 재시도
+  } else {
+    console.warn("⚠️ 로그인/로그아웃 버튼을 끝내 찾지 못했어요");
   }
 }
 
