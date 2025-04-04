@@ -17,24 +17,37 @@ async function loadFooter() {
   document.getElementById("footer").innerHTML = html; // #footer에 삽입
 }
 
-// ✅ 네비게이션 바를 외부 HTML에서 불러와 삽입
+// ✅ 네비게이션 바 로드 이후, 버튼이 실제로 생성된 후 checkLogin 실행
 async function loadNavbar() {
-  const navbarContainer = document.getElementById("navbar"); // 네비게이션 영역 찾기
+  const navbarContainer = document.getElementById("navbar");
   if (!navbarContainer) {
     console.error("🛑 #navbar 요소 없음");
     return;
   }
 
   try {
-    const response = await fetch("asset/navbar.html"); // navbar.html 가져오기
-    const html = await response.text(); // 텍스트로 변환
-    navbarContainer.innerHTML = html; // 삽입
+    const response = await fetch("asset/navbar.html");
+    const html = await response.text();
+    navbarContainer.innerHTML = html;
     console.log("✅ 네비게이션 바 로드 완료");
 
-    // 삽입 후, 로그인 상태를 확인해서 버튼 보이기 설정
-    await checkLogin();
+    // ✅ 버튼이 DOM에 완전히 생성될 때까지 기다린 후 checkLogin 호출
+    waitForButtonsThenCheckLogin();
   } catch (err) {
     console.error("🛑 navbar 로딩 실패:", err);
+  }
+}
+
+function waitForButtonsThenCheckLogin(retry = 10) {
+  const loginBtn = document.querySelector("#login-btn");
+  const logoutBtn = document.querySelector("#logout-btn");
+
+  if (loginBtn && logoutBtn) {
+    checkLogin(); // ✅ 버튼이 있을 때만 로그인 상태 체크
+  } else if (retry > 0) {
+    setTimeout(() => waitForButtonsThenCheckLogin(retry - 1), 100); // 100ms 간격으로 최대 10번 재시도
+  } else {
+    console.warn("⚠️ 로그인/로그아웃 버튼을 찾지 못해 checkLogin 생략됨");
   }
 }
 
