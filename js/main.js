@@ -1,6 +1,10 @@
 // ✅ Supabase 인스턴스 가져오기
 import { supabase } from "./supabase.js";
 
+// ✅ 문서가 완전히 로드된 후 실행
+document.addEventListener("DOMContentLoaded", async () => {
+  console.log("✅ main.js 로드됨");
+
   // 네비게이션 바와 푸터를 불러옴
   await loadNavbar();
   await loadFooter();
@@ -21,15 +25,14 @@ async function loadNavbar() {
     console.error("🛑 #navbar 요소 없음");
     return;
   }
-
   try {
     const response = await fetch("asset/navbar.html"); // HTML 요청
     const html = await response.text();                // 텍스트로 변환
     navbarContainer.innerHTML = html;                  // 삽입
     console.log("✅ 네비게이션 바 로드 완료");
 
-    waitForButtonsThenCheckLogin(); // 👉 여기서 호출!
-  } catch (err) {
+    waitForButtonsThenCheckLogin()
+    } catch (err) {
     console.error("🛑 navbar 로딩 실패:", err);
   }
 }
@@ -98,7 +101,7 @@ async function checkLogin(retry = 10) {
 
     freshLoginBtn.style.display = "none"; // 로그인 버튼 숨김
     freshLogoutBtn.style.display = "inline-block"; // 로그아웃 버튼 표시
-
+    
     // 로그아웃 버튼 클릭 이벤트
     freshLogoutBtn.addEventListener("click", signOutAndReload);
   }
