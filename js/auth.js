@@ -42,7 +42,7 @@ async function signInWithProvider(provider) {
     await supabase.auth.signOut(); 
 
     // 로그인 후 돌아올 페이지 (redirect URL)
-    const redirectUrl = window.location.origin + "/PETTY/index.html";
+    const redirectUrl = "https://limpark996.github.io/PETTY/";
 
     // Supabase 소셜 로그인 실행
     const { error } = await supabase.auth.signInWithOAuth({
