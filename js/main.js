@@ -8,12 +8,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   // 네비게이션 바와 푸터를 불러옴
   await loadNavbar();
   await loadFooter();
-
-  // ✅ 인증 상태 변경 감지 (로그인/로그아웃/세션 복구 등)
-  supabase.auth.onAuthStateChange(() => {
-    console.log("👀 index.html에서도 인증 상태 감지됨 (onAuthStateChange 실행)");
-    checkLogin(); // 버튼 상태 다시 확인
-  });
 });
 
 // ✅ 푸터를 외부 HTML에서 불러와 삽입
@@ -79,7 +73,6 @@ async function checkLogin(retry = 10) {
 
     freshLoginBtn.style.display = "inline-block"; // 로그인 버튼 표시
     freshLogoutBtn.style.display = "none";        // 로그아웃 버튼 숨김
-    if (userInfo) userInfo.style.display = "none";
 
     // 로그인 버튼 클릭 시 로그인 페이지로 이동
     freshLoginBtn.addEventListener("click", () => {
@@ -95,11 +88,6 @@ async function checkLogin(retry = 10) {
 
     freshLoginBtn.style.display = "none"; // 로그인 버튼 숨김
     freshLogoutBtn.style.display = "inline-block"; // 로그아웃 버튼 표시
-
-    if (userInfo) {
-      userInfo.textContent = `👋 ${name}`;
-      userInfo.style.display = "inline-block";
-    }
 
     // 로그아웃 버튼 클릭 이벤트
     freshLogoutBtn.addEventListener("click", signOutAndReload);
