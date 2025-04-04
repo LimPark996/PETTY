@@ -46,15 +46,21 @@ async function loadNavbar() {
 }
 
 // ✅ 로그인 상태를 확인하고 UI 업데이트
-async function checkLogin() {
+async function checkLogin(retry = 10) {
   console.log("🔍 checkLogin() 실행됨");
 
-  const { data: sessionData, error } = await supabase.auth.getSession(); // 세션 가져오기
+  const { data: sessionData, error } = await supabase.auth.getSession();
+
+  if (!sessionData?.session && retry > 0) {
+    console.log("🕓 세션이 아직 없음, 재시도...");
+    setTimeout(() => checkLogin(retry - 1), 200); // 200ms 뒤 재시도
+    return;
+  }
+
   console.log("📦 Supabase 세션 정보:", sessionData);
 
-  const loginBtn = document.querySelector("#login-btn");   // 로그인 버튼
-  const logoutBtn = document.querySelector("#logout-btn"); // 로그아웃 버튼
-  const userInfo = document.querySelector("#user-info");   // 사용자 이름 표시 영역
+  const loginBtn = document.querySelector("#login-btn");
+  const logoutBtn = document.querySelector("#logout-btn");
 
   if (!loginBtn || !logoutBtn) {
     console.warn("⚠️ 로그인/로그아웃 버튼 요소를 찾을 수 없습니다.");
